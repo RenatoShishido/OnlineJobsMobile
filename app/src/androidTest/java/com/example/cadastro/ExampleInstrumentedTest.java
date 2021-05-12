@@ -1,4 +1,4 @@
-package com.example.onlinejobsmovies;
+package com.example.cadastro;
 
 import android.content.Context;
 
