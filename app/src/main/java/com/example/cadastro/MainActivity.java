@@ -14,47 +14,60 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cadastro.config.DatabaseHelper;
+import com.example.cadastro.dao.EmpregoDAO;
+import com.example.cadastro.dao.PessoaDAO;
+import com.example.cadastro.entities.Pessoa;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView listContatos;
-    private Button btnNovoCadastro;
-    private Contato contato;
-    com.example.cadastro.BDContatoHelper contatoHelper;
-    ArrayList<Contato> arrayListContato;
-    ArrayAdapter<Contato> arrayAdapterContato;
+    private ListView listPessoas;
+    private Button btnNovoCadastro, btnNovoCadastroEmprego;
+    private Pessoa pessoa;
+    DatabaseHelper contatoHelper;
+    PessoaDAO pessoaDAO;
+    ArrayList<Pessoa> arrayListContato;
+    ArrayAdapter<Pessoa> arrayAdapterContato;
     private int id1,id2; //menu item
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listContatos = findViewById(R.id.listContatos);
-        registerForContextMenu(listContatos);
+        pessoaDAO = new PessoaDAO(MainActivity.this);
+        listPessoas = findViewById(R.id.listPessoas);
+        registerForContextMenu(listPessoas);
         btnNovoCadastro = findViewById(R.id.btnNovoCadastro);
         btnNovoCadastro.setOnClickListener(v -> {
-                    Intent it = new Intent(com.example.cadastro.MainActivity.this, com.example.cadastro.CadastroContato.class);
-                    startActivity(it);
+            Intent it = new Intent(MainActivity.this, CadastroPessoa.class);
+            startActivity(it);
         });
 
-        listContatos.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
-            Contato contatoEnviada = (Contato) arrayAdapterContato.getItem(position);
-            Intent it = new Intent(com.example.cadastro.MainActivity.this, com.example.cadastro.CadastroContato.class);
+        btnNovoCadastroEmprego = findViewById(R.id.btnNovoCadastroEmprego);
+        btnNovoCadastroEmprego.setOnClickListener(v -> {
+            Intent it = new Intent(MainActivity.this, CadastroEmprego.class);
+            startActivity(it);
+        });
+
+        listPessoas.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
+            Pessoa contatoEnviada = (Pessoa) arrayAdapterContato.getItem(position);
+            Intent it = new Intent(MainActivity.this, CadastroPessoa.class);
             it.putExtra("chave_contato",contatoEnviada);
             startActivity(it);
         });
-        listContatos.setOnItemLongClickListener((AdapterView<?> adapterView,View view, int position, long id) -> {
-            contato = arrayAdapterContato.getItem(position);
+        listPessoas.setOnItemLongClickListener((AdapterView<?> adapterView,View view, int position, long id) -> {
+            pessoa = arrayAdapterContato.getItem(position);
             return false;
         });
     }
     public void preencheLista(){
-        contatoHelper = new com.example.cadastro.BDContatoHelper(com.example.cadastro.MainActivity.this);
-        arrayListContato = contatoHelper.selectAllContato();
+        contatoHelper = new DatabaseHelper(MainActivity.this);
+        arrayListContato = pessoaDAO.selectAll();
         contatoHelper.close();
-        if(listContatos!=null){
-            arrayAdapterContato = new ArrayAdapter<Contato>(com.example.cadastro.MainActivity.this,
+        if(listPessoas!=null){
+            arrayAdapterContato = new ArrayAdapter<Pessoa>(com.example.cadastro.MainActivity.this,
                     android.R.layout.simple_list_item_1,arrayListContato);
-            listContatos.setAdapter(arrayAdapterContato);
+            listPessoas.setAdapter(arrayAdapterContato);
         }
     }
     @Override
@@ -63,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         MenuItem mSair = menu.add(Menu.NONE, id2, 2,"Cancela");
         mDelete.setOnMenuItemClickListener(menuItem -> {
             long retornoBD;
-            contatoHelper = new com.example.cadastro.BDContatoHelper(com.example.cadastro.MainActivity.this);
-            retornoBD = contatoHelper.deleteContato(contato);
+            contatoHelper = new DatabaseHelper(MainActivity.this);
+            retornoBD = pessoaDAO.delete(pessoa);
             contatoHelper.close();
             if(retornoBD==-1){
                 alert("Erro de exclusão!");
@@ -82,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         preencheLista();
     }
-    private void alert(String s){
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+    private void alert(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

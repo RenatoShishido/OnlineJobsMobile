@@ -4,44 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroContato">
+    tools:context=".CadastroEmprego">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <EditText
-            android:id="@+id/edtNome"
+            android:id="@+id/edtDescricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Nome" />
+            android:hint="Descricao"
+            android:inputType="textPersonName" />
+
         <EditText
-            android:id="@+id/edtIdade"
+            android:id="@+id/edtHoras"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="number"
-            android:hint="Idade"/>
+            android:hint="Horas"
+            android:inputType="number" />
+
         <EditText
-            android:id="@+id/edtEndereco"
+            android:id="@+id/edtValor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Endereço"/>
-        <EditText
-            android:id="@+id/edtTelefone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Telefone"/>
+            android:hint="Valor"
+            android:inputType="number" />
+
         <Button
-            android:id="@+id/btnVariavel"
+            android:id="@+id/btnVariavelEmprego"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:text="SALVAR" />
     </LinearLayout>
 
 

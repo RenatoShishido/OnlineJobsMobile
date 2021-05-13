@@ -12,15 +12,22 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:id="@+id/listContatos">
+            android:id="@+id/listPessoas">
         </ListView>
+
         <Button
+            android:id="@+id/btnNovoCadastro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Novo Cadastro"
-            android:id="@+id/btnNovoCadastro"
             android:layout_gravity="center_horizontal"
-            />
+            android:text="Cadastrar Pessoa" />
+
+        <Button
+            android:id="@+id/btnNovoCadastroEmprego"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Cadastrar Emprego" />
     </LinearLayout>
 
 
