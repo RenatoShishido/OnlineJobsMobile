@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.cadastro.config.DatabaseHelper;
 import com.example.cadastro.dao.PessoaDAO;
 import com.example.cadastro.entities.Pessoa;
+import com.example.cadastro.util.ArrayAdapterCustom;
 
 import java.util.ArrayList;
 
@@ -26,8 +27,8 @@ public class ListPessoasActivity extends AppCompatActivity {
     private Pessoa pessoa;
     DatabaseHelper contatoHelper;
     PessoaDAO pessoaDAO;
-    ArrayList<Pessoa> arrayListContato;
-    ArrayAdapter<Pessoa> arrayAdapterContato;
+    ArrayList<Pessoa> arrayListPessoa;
+    ArrayAdapterCustom<Pessoa> arrayAdapterPessoa;
     private int id1,id2; //menu item
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +45,24 @@ public class ListPessoasActivity extends AppCompatActivity {
 
 
         listPessoas.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
-            Pessoa contatoEnviada = (Pessoa) arrayAdapterContato.getItem(position);
+            Pessoa contatoEnviada = (Pessoa) arrayAdapterPessoa.getItem(position);
             Intent it = new Intent(ListPessoasActivity.this, CadastroPessoa.class);
             it.putExtra("chave_contato",contatoEnviada);
             startActivity(it);
         });
         listPessoas.setOnItemLongClickListener((AdapterView<?> adapterView,View view, int position, long id) -> {
-            pessoa = arrayAdapterContato.getItem(position);
+            pessoa = arrayAdapterPessoa.getItem(position);
             return false;
         });
     }
     public void preencheLista(){
         contatoHelper = new DatabaseHelper(ListPessoasActivity.this);
-        arrayListContato = pessoaDAO.selectAll();
+        arrayListPessoa = pessoaDAO.selectAll();
         contatoHelper.close();
         if(listPessoas!=null){
-            arrayAdapterContato = new ArrayAdapter<Pessoa>(ListPessoasActivity.this,
-                    android.R.layout.simple_list_item_1,arrayListContato);
-            listPessoas.setAdapter(arrayAdapterContato);
+            arrayAdapterPessoa = new ArrayAdapterCustom<Pessoa>(ListPessoasActivity.this,
+                    android.R.layout.simple_list_item_1,arrayListPessoa);
+            listPessoas.setAdapter(arrayAdapterPessoa);
         }
     }
     @Override

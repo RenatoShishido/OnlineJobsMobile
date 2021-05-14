@@ -1,5 +1,5 @@
 package com.example.cadastro.util;
 
-public interface OptionSpinAdapter {
-    public String getText();
+public interface ItemAdapter {
+    public String getString();
 }

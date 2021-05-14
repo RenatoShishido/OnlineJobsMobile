@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.cadastro.config.DatabaseHelper;
+import com.example.cadastro.entities.Emprego;
 import com.example.cadastro.entities.Pessoa;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class PessoaDAO {
         values.put("email", pessoa.getEmail());
         values.put("telefone", pessoa.getTelefone());
         values.put("cpf", pessoa.getCpf());
+        values.put("vagaId", pessoa.getVagaId());
         retornoBD = db.insert("pessoa", null, values);
         String res = Long.toString(retornoBD);
         Log.i("BDContatoHelper", res);
@@ -37,20 +39,30 @@ public class PessoaDAO {
     }
 
     public ArrayList<Pessoa> selectAll() {
-        String[] coluns = {"id", "vagaId", "nome", "cpf", "email", "telefone"};
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM pessoa JOIN emprego ON emprego.id = pessoa.vagaId");
 
-        Cursor cursor = db.query("pessoa", coluns, null, null, null,
-                null, "upper(nome)", null);
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+
 
         ArrayList<Pessoa> listaPessoa = new ArrayList<Pessoa>();
         while (cursor.moveToNext()) {
             Pessoa pessoa = new Pessoa();
-            pessoa.setId(cursor.getInt(0));
-            pessoa.setVagaId(cursor.getInt(1));
-            pessoa.setNome(cursor.getString(2));
-            pessoa.setCpf(cursor.getString(3));
-            pessoa.setEmail(cursor.getString(4));
-            pessoa.setTelefone(cursor.getString(5));
+            pessoa.setId(cursor.getInt(cursor.getColumnIndex("pessoa.id")));
+            pessoa.setVagaId(cursor.getInt(cursor.getColumnIndex("vagaId")));
+            pessoa.setNome(cursor.getString(cursor.getColumnIndex("nome")));
+            pessoa.setCpf(cursor.getString(cursor.getColumnIndex("cpf")));
+            pessoa.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            pessoa.setTelefone(cursor.getString(cursor.getColumnIndex("telefone")));
+
+            Emprego emprego = new Emprego();
+            emprego.setId(cursor.getInt(cursor.getColumnIndex("emprego.id")));
+            emprego.setDescricao(cursor.getString(cursor.getColumnIndex("descricao")));
+            emprego.setHoras(cursor.getInt(cursor.getColumnIndex("horasPorSemana")));
+            emprego.setValor(cursor.getDouble(cursor.getColumnIndex("valor")));
+
+
+            pessoa.setEmprego(emprego);
 
             listaPessoa.add(pessoa);
         }

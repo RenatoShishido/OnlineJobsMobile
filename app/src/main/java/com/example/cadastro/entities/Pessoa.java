@@ -1,14 +1,17 @@
 package com.example.cadastro.entities;
 
+import com.example.cadastro.util.ItemAdapter;
+
 import java.io.Serializable;
 
-public class Pessoa implements Serializable {
+public class Pessoa implements Serializable, ItemAdapter {
     private int id;
     private int vagaId;
     private String nome;
     private String cpf;
     private String email;
     private String telefone;
+    private Emprego emprego;
 
 
     public Pessoa(){
@@ -63,8 +66,24 @@ public class Pessoa implements Serializable {
         this.telefone = telefone;
     }
 
+    public Emprego getEmprego() {return emprego; }
+
+    public void setEmprego(Emprego emprego) { this.emprego = emprego; }
+
+
+
+
     @Override
     public String toString(){
-        return "Nome: " + nome.toString()+" \nEmail: "+email.toString()+"\nCpf: "+cpf.toString()+"\nTelefone: "+telefone.toString();
+        return "Nome: " + nome.toString()+" \nEmail: "+email.toString()+"\nCpf: "+cpf.toString()+
+                "\nTelefone: "+telefone.toString() +
+                "\nEmprego: "+emprego != null? emprego.getDescricao().toString():"Nenhum";
+    }
+
+    @Override
+    public String getString() {
+        return "Nome: " + nome.toString()+" \nEmail: "+email.toString()+"\nCpf: "+cpf.toString()+
+                "\nTelefone: "+telefone.toString() +
+                "\nEmprego: "+emprego != null? emprego.getDescricao().toString():"Nenhum";
     }
 }

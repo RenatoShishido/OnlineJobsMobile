@@ -39,6 +39,10 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Telefone"/>
+        <Spinner
+            android:id="@+id/spnSelectVagas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnVariavel"
@@ -46,6 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="SALVAR" />
+
+
     </LinearLayout>
 
 

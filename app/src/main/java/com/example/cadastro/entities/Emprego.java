@@ -1,8 +1,10 @@
 package com.example.cadastro.entities;
 
+import com.example.cadastro.util.ItemAdapter;
+
 import java.io.Serializable;
 
-public class Emprego implements Serializable {
+public class Emprego implements Serializable, ItemAdapter {
     private int id;
     private String descricao;
     private int horas;
@@ -48,5 +50,10 @@ public class Emprego implements Serializable {
                 "descricao: " + descricao.toString() + "\n" +
                 "horas: " + horas + "\n" +
                 "valor: " + valor;
+    }
+
+
+    public String getString() {
+        return descricao;
     }
 }
