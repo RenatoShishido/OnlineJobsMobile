@@ -24,7 +24,7 @@ public class ArrayAdapterCustom<T extends ItemAdapter> extends ArrayAdapter<T> {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView label = (TextView) super.getView(position, convertView, parent);
         label.setTextColor(Color.BLACK);
-        label.setText(this.getItem(position).toString());
+        label.setText(this.getItem(position).getString());
         return label;
     }
 

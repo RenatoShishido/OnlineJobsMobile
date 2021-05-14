@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.cadastro.config.DatabaseHelper;
 import com.example.cadastro.entities.Emprego;
 
+
 import java.util.ArrayList;
 
 public class EmpregoDAO {
@@ -65,11 +66,11 @@ public class EmpregoDAO {
         return retornoBD;
     }
 
-    public long delete(Emprego emprego) {
-        long retornoBD;
-        String[] args = {String.valueOf(emprego.getId())};
-        retornoBD = db.delete("emprego", "id" + "=?", args);
-        return retornoBD;
+    public long delete(Emprego emprego) throws Exception {
+            long retornoBD;
+            String[] args = {String.valueOf(emprego.getId())};
+            retornoBD = db.delete("emprego", "id" + "=?", args);
+            return retornoBD;
     }
 
 

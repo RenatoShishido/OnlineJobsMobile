@@ -4,7 +4,7 @@ import com.example.cadastro.util.ItemAdapter;
 
 import java.io.Serializable;
 
-public class Pessoa implements Serializable, ItemAdapter {
+public class Pessoa implements Serializable{
     private int id;
     private int vagaId;
     private String nome;
@@ -70,20 +70,14 @@ public class Pessoa implements Serializable, ItemAdapter {
 
     public void setEmprego(Emprego emprego) { this.emprego = emprego; }
 
-
-
-
     @Override
-    public String toString(){
-        return "Nome: " + nome.toString()+" \nEmail: "+email.toString()+"\nCpf: "+cpf.toString()+
-                "\nTelefone: "+telefone.toString() +
-                "\nEmprego: "+emprego != null? emprego.getDescricao().toString():"Nenhum";
-    }
-
-    @Override
-    public String getString() {
-        return "Nome: " + nome.toString()+" \nEmail: "+email.toString()+"\nCpf: "+cpf.toString()+
-                "\nTelefone: "+telefone.toString() +
-                "\nEmprego: "+emprego != null? emprego.getDescricao().toString():"Nenhum";
+    public String toString() {
+        return "Pessoa\n" + "nome: " + nome +
+                "\ncpf:'" + cpf  +
+                "\nemail:" + email  +
+                "\ntelefone:" + telefone  +
+                "\nEmprego: \n Descrição: " + emprego.getDescricao() +
+                "\nHoras: " + emprego.getHoras() +
+                "\nValor" + emprego.getValor();
     }
 }

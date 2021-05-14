@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.cadastro.config.DatabaseHelper;
 import com.example.cadastro.dao.EmpregoDAO;
 import com.example.cadastro.entities.Emprego;
+import com.example.cadastro.util.UtilAlert;
 
 import java.util.ArrayList;
 
@@ -70,17 +71,22 @@ public class ListEmpregosActivity extends AppCompatActivity {
         MenuItem mDelete = menu.add(Menu.NONE, id1, 1,"Deleta Registro");
         MenuItem mSair = menu.add(Menu.NONE, id2, 2,"Cancela");
         mDelete.setOnMenuItemClickListener(menuItem -> {
-            long retornoBD;
-            contatoHelper = new DatabaseHelper(ListEmpregosActivity.this);
-            retornoBD = empregoDAO.delete(emprego);
-            contatoHelper.close();
-            if(retornoBD==-1){
-                alert("Erro de exclusão!");
+            try {
+                long retornoBD;
+                contatoHelper = new DatabaseHelper(ListEmpregosActivity.this);
+                retornoBD = empregoDAO.delete(emprego);
+                contatoHelper.close();
+                if(retornoBD==-1){
+                    UtilAlert.alert(ListEmpregosActivity.this, "Erro de exclusão!");
+                }
+                else{
+                    UtilAlert.alert(ListEmpregosActivity.this, "Registro excluído com sucesso!");
+                }
+                preencheLista();
+            }catch (Exception exception) {
+                UtilAlert.alert(ListEmpregosActivity.this, "Erro ao excluir emprego com pessoas relacionadas");
             }
-            else{
-                alert("Registro excluído com sucesso!");
-            }
-            preencheLista();
+
             return false;
         });
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -89,8 +95,5 @@ public class ListEmpregosActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         preencheLista();
-    }
-    private void alert(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

@@ -18,6 +18,7 @@ import com.example.cadastro.dao.PessoaDAO;
 import com.example.cadastro.entities.Emprego;
 import com.example.cadastro.entities.Pessoa;
 import com.example.cadastro.util.ArrayAdapterCustom;
+import com.example.cadastro.util.UtilAlert;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,6 @@ public class CadastroPessoa extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Emprego emprego = (Emprego) parent.getSelectedItem();
                 vagaId = emprego.getId();
-                displayUserData(emprego);
             }
 
             @Override
@@ -98,10 +98,10 @@ public class CadastroPessoa extends AppCompatActivity {
                 if(btnVariavel.getText().toString().equals("SALVAR")) {
                     retornoBD=pessoaDAO.insert(pessoa);
                     if(retornoBD==-1){
-                        alert("Erro ao Cadastrar!");
+                        UtilAlert.alert(CadastroPessoa.this,"Erro ao Cadastrar!");
                     }
                     else{
-                        alert("Cadastro realizado com sucesso!");
+                        UtilAlert.alert(CadastroPessoa.this,"Cadastro realizado com sucesso!");
                     }
                 }else{
                     pessoaDAO.update(pessoa);
@@ -123,7 +123,6 @@ public class CadastroPessoa extends AppCompatActivity {
 
     }
     public void setItemSpinner(Emprego emprego) {
-
         int posicaoArray = 0;
         boolean fim = false;
     if(arrayListEmprego != null) {
@@ -141,16 +140,4 @@ public class CadastroPessoa extends AppCompatActivity {
     }
     }
 
-    private void displayUserData(Emprego emprego) {
-        String descricao = emprego.getDescricao();
-        Double valor = emprego.getValor();
-        int horas = emprego.getHoras();
-
-        String userData = "Name: " + descricao + "\nAge: " + valor + "\nMail: " + horas;
-
-        Toast.makeText(this, userData, Toast.LENGTH_LONG).show();
-    }
-    private void alert(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-    }
 }

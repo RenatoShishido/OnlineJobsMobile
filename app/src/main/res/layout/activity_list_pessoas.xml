@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ListView
+            android:id="@+id/listPessoas"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:id="@+id/listPessoas">
-        </ListView>
+            android:layout_height="587dp"></ListView>
 
         <Button
             android:id="@+id/btnNovoCadastro"

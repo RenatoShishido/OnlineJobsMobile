@@ -36,8 +36,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME,null,DATABASE_VERSION);
     }
 
+
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db ) {
         String CREATE_PESSOA_TABLE = "CREATE TABLE " + TABLE_PESSOA +
                 "(" +
                 KEY_PESSOA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + // Define a primary key

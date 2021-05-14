@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.cadastro.config.DatabaseHelper;
 import com.example.cadastro.dao.PessoaDAO;
 import com.example.cadastro.entities.Pessoa;
-import com.example.cadastro.util.ArrayAdapterCustom;
+import com.example.cadastro.util.UtilAlert;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class ListPessoasActivity extends AppCompatActivity {
     DatabaseHelper contatoHelper;
     PessoaDAO pessoaDAO;
     ArrayList<Pessoa> arrayListPessoa;
-    ArrayAdapterCustom<Pessoa> arrayAdapterPessoa;
+    ArrayAdapter<Pessoa> arrayAdapterPessoa;
     private int id1,id2; //menu item
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class ListPessoasActivity extends AppCompatActivity {
         arrayListPessoa = pessoaDAO.selectAll();
         contatoHelper.close();
         if(listPessoas!=null){
-            arrayAdapterPessoa = new ArrayAdapterCustom<Pessoa>(ListPessoasActivity.this,
+            arrayAdapterPessoa = new ArrayAdapter<Pessoa>(ListPessoasActivity.this,
                     android.R.layout.simple_list_item_1,arrayListPessoa);
             listPessoas.setAdapter(arrayAdapterPessoa);
         }
@@ -75,10 +75,10 @@ public class ListPessoasActivity extends AppCompatActivity {
             retornoBD = pessoaDAO.delete(pessoa);
             contatoHelper.close();
             if(retornoBD==-1){
-                alert("Erro de exclusão!");
+                UtilAlert.alert(ListPessoasActivity.this,"Erro de exclusão!");
             }
             else{
-                alert("Registro excluído com sucesso!");
+                UtilAlert.alert(ListPessoasActivity.this,"Registro excluído com sucesso!");
             }
             preencheLista();
             return false;
@@ -89,8 +89,5 @@ public class ListPessoasActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         preencheLista();
-    }
-    private void alert(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }
