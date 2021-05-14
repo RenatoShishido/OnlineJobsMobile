@@ -24,7 +24,7 @@ public class CadastroEmprego extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_pessoa);
+        setContentView(R.layout.activity_cadastro_emprego);
         Intent it=getIntent();
         emprego = new Emprego();
         empregoDAO = new EmpregoDAO(CadastroEmprego.this);

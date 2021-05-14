@@ -9,25 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:id="@+id/listPessoas">
-        </ListView>
-
         <Button
-            android:id="@+id/btnNovoCadastro"
+            android:id="@+id/btnListarPessoa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Cadastrar Pessoa" />
+            android:layout_marginTop="300dp"
+            android:text="Listar Pessoas" />
 
         <Button
-            android:id="@+id/btnNovoCadastroEmprego"
+            android:id="@+id/btnListarEmprego"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Cadastrar Emprego" />
+            android:text="Listar Empregos" />
     </LinearLayout>
 
 

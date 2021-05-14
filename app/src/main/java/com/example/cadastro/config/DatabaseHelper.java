@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String KEY_EMPREGO_ID = "id";
     private static final String KEY_EMPREGO_DESCRICAO = "descricao";
-    private static final String KEY_EMPREGO_HORASPORSEMANA = "horas";
+    private static final String KEY_EMPREGO_HORASPORSEMANA = "horasPorSemana";
     private static final String KEY_EMPREGO_VALOR = "valor";
 
     SQLiteDatabase db;

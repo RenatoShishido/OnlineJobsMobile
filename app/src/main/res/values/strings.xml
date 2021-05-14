@@ -3,4 +3,6 @@
     <string name="cadastrar">Cadastrar</string>
     <string name="emprego">Cadastrar Empregos</string>
     <string name="pessoa">Cadastrar Pessoas</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 </resources>

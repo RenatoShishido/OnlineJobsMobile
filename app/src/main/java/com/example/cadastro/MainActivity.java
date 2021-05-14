@@ -22,80 +22,24 @@ import com.example.cadastro.entities.Pessoa;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView listPessoas;
-    private Button btnNovoCadastro, btnNovoCadastroEmprego;
-    private Pessoa pessoa;
-    DatabaseHelper contatoHelper;
-    PessoaDAO pessoaDAO;
-    ArrayList<Pessoa> arrayListContato;
-    ArrayAdapter<Pessoa> arrayAdapterContato;
-    private int id1,id2; //menu item
+    private Button btnListarPessoas, btnListarEmpregos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pessoaDAO = new PessoaDAO(MainActivity.this);
-        listPessoas = findViewById(R.id.listPessoas);
-        registerForContextMenu(listPessoas);
-        btnNovoCadastro = findViewById(R.id.btnNovoCadastro);
-        btnNovoCadastro.setOnClickListener(v -> {
-            Intent it = new Intent(MainActivity.this, CadastroPessoa.class);
-            startActivity(it);
+
+        btnListarPessoas = findViewById(R.id.btnListarPessoa);
+        btnListarEmpregos = findViewById(R.id.btnListarEmprego);
+
+
+        btnListarPessoas.setOnClickListener(v -> {
+            Intent intentList = new Intent(MainActivity.this, ListPessoasActivity.class);
+            startActivity(intentList);
         });
 
-        btnNovoCadastroEmprego = findViewById(R.id.btnNovoCadastroEmprego);
-        btnNovoCadastroEmprego.setOnClickListener(v -> {
-            Intent it = new Intent(MainActivity.this, CadastroEmprego.class);
-            startActivity(it);
+        btnListarEmpregos.setOnClickListener(v -> {
+            Intent intentList = new Intent(MainActivity.this, ListEmpregosActivity.class);
+            startActivity(intentList);
         });
-
-        listPessoas.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
-            Pessoa contatoEnviada = (Pessoa) arrayAdapterContato.getItem(position);
-            Intent it = new Intent(MainActivity.this, CadastroPessoa.class);
-            it.putExtra("chave_contato",contatoEnviada);
-            startActivity(it);
-        });
-        listPessoas.setOnItemLongClickListener((AdapterView<?> adapterView,View view, int position, long id) -> {
-            pessoa = arrayAdapterContato.getItem(position);
-            return false;
-        });
-    }
-    public void preencheLista(){
-        contatoHelper = new DatabaseHelper(MainActivity.this);
-        arrayListContato = pessoaDAO.selectAll();
-        contatoHelper.close();
-        if(listPessoas!=null){
-            arrayAdapterContato = new ArrayAdapter<Pessoa>(com.example.cadastro.MainActivity.this,
-                    android.R.layout.simple_list_item_1,arrayListContato);
-            listPessoas.setAdapter(arrayAdapterContato);
-        }
-    }
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-        MenuItem mDelete = menu.add(Menu.NONE, id1, 1,"Deleta Registro");
-        MenuItem mSair = menu.add(Menu.NONE, id2, 2,"Cancela");
-        mDelete.setOnMenuItemClickListener(menuItem -> {
-            long retornoBD;
-            contatoHelper = new DatabaseHelper(MainActivity.this);
-            retornoBD = pessoaDAO.delete(pessoa);
-            contatoHelper.close();
-            if(retornoBD==-1){
-                alert("Erro de exclusão!");
-            }
-            else{
-                alert("Registro excluído com sucesso!");
-            }
-            preencheLista();
-            return false;
-        });
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        preencheLista();
-    }
-    private void alert(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

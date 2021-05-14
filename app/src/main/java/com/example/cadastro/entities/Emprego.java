@@ -43,7 +43,10 @@ public class Emprego implements Serializable {
     }
 
     @Override
-    public String toString(){
-        return "Descricao: " + descricao.toString()+" \nHoras: "+horas+"\nValor: "+valor;
+    public String toString() {
+        return
+                "descricao: " + descricao.toString() + "\n" +
+                "horas: " + horas + "\n" +
+                "valor: " + valor;
     }
 }

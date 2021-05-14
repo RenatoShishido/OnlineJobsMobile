@@ -26,7 +26,7 @@ public class EmpregoDAO {
         long retornoBD;
         ContentValues values = new ContentValues();
         values.put("descricao", emprego.getDescricao());
-        values.put("horas", emprego.getHoras());
+        values.put("horasPorSemana", emprego.getHoras());
         values.put("valor", emprego.getValor());
         retornoBD = db.insert("emprego", null, values);
         String res = Long.toString(retornoBD);
@@ -36,7 +36,7 @@ public class EmpregoDAO {
     }
 
     public ArrayList<Emprego> selectAll() {
-        String[] coluns = {"id", "descricao", "horas", "valor"};
+        String[] coluns = {"id", "descricao", "horasPorSemana", "valor"};
 
         Cursor cursor = db.query("emprego", coluns, null, null, null,
                 null, "upper(descricao)", null);
@@ -57,7 +57,7 @@ public class EmpregoDAO {
         long retornoBD;
         ContentValues values = new ContentValues();
         values.put("descricao", emprego.getDescricao());
-        values.put("horas", emprego.getHoras());
+        values.put("horasPorSemana", emprego.getHoras());
         values.put("valor", emprego.getValor());
         String[] args = {String.valueOf(emprego.getId())};
         retornoBD = db.update("emprego", values, "id=?", args);
@@ -68,7 +68,7 @@ public class EmpregoDAO {
     public long delete(Emprego emprego) {
         long retornoBD;
         String[] args = {String.valueOf(emprego.getId())};
-        retornoBD = db.delete("pessoa", "id" + "=?", args);
+        retornoBD = db.delete("emprego", "id" + "=?", args);
         return retornoBD;
     }
 
