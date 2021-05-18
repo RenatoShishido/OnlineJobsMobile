@@ -26,7 +26,7 @@ public class ListEmpregosActivity extends AppCompatActivity {
     private ListView listEmprego;
     private Button btnListEmprego;
     private Emprego emprego;
-    DatabaseHelper contatoHelper;
+    DatabaseHelper databaseHelper;
     EmpregoDAO empregoDAO;
     ArrayList<Emprego> arrayListEmprego;
     ArrayAdapter<Emprego> arrayAdapterEmprego;
@@ -48,7 +48,7 @@ public class ListEmpregosActivity extends AppCompatActivity {
         listEmprego.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
             Emprego emprego = (Emprego) arrayAdapterEmprego.getItem(position);
             Intent it = new Intent(ListEmpregosActivity.this, CadastroEmprego.class);
-            it.putExtra("chave_contato",emprego);
+            it.putExtra("chave",emprego);
             startActivity(it);
         });
         listEmprego.setOnItemLongClickListener((AdapterView<?> adapterView,View view, int position, long id) -> {
@@ -57,9 +57,9 @@ public class ListEmpregosActivity extends AppCompatActivity {
         });
     }
     public void preencheLista(){
-        contatoHelper = new DatabaseHelper(ListEmpregosActivity.this);
+        databaseHelper = new DatabaseHelper(ListEmpregosActivity.this);
         arrayListEmprego = empregoDAO.selectAll();
-        contatoHelper.close();
+        databaseHelper.close();
         if(listEmprego!=null){
             arrayAdapterEmprego = new ArrayAdapter<Emprego>(ListEmpregosActivity.this,
                     android.R.layout.simple_list_item_1,arrayListEmprego);
@@ -73,9 +73,9 @@ public class ListEmpregosActivity extends AppCompatActivity {
         mDelete.setOnMenuItemClickListener(menuItem -> {
             try {
                 long retornoBD;
-                contatoHelper = new DatabaseHelper(ListEmpregosActivity.this);
+                databaseHelper = new DatabaseHelper(ListEmpregosActivity.this);
                 retornoBD = empregoDAO.delete(emprego);
-                contatoHelper.close();
+                databaseHelper.close();
                 if(retornoBD==-1){
                     UtilAlert.alert(ListEmpregosActivity.this, "Erro de exclusão!");
                 }

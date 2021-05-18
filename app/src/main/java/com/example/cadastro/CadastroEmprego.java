@@ -18,7 +18,7 @@ public class CadastroEmprego extends AppCompatActivity {
     private EditText edtDescricao, edtHoras, edtValor;
     private Button btnVariavelEmprego;
     Emprego emprego, altEmprego;
-    DatabaseHelper contatoHelper;
+    DatabaseHelper databaseHelper;
     EmpregoDAO empregoDAO;
     long retornoBD;
     @Override
@@ -28,9 +28,9 @@ public class CadastroEmprego extends AppCompatActivity {
         Intent it=getIntent();
         emprego = new Emprego();
         empregoDAO = new EmpregoDAO(CadastroEmprego.this);
-        altEmprego = (Emprego) it.getSerializableExtra("chave_contato");
+        altEmprego = (Emprego) it.getSerializableExtra("chave");
 
-        contatoHelper = new DatabaseHelper(CadastroEmprego.this);
+        databaseHelper = new DatabaseHelper(CadastroEmprego.this);
 
         edtDescricao = findViewById(R.id.edtDescricao);
         edtHoras = findViewById(R.id.edtHoras);
@@ -64,7 +64,7 @@ public class CadastroEmprego extends AppCompatActivity {
                     }
                 }else{
                     empregoDAO.update(emprego);
-                    contatoHelper.close();
+                    databaseHelper.close();
                 }
                 finish();
         });

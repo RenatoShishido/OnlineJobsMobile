@@ -25,13 +25,14 @@ public class ListPessoasActivity extends AppCompatActivity {
     private ListView listPessoas;
     private Button btnNovoCadastro;
     private Pessoa pessoa;
-    DatabaseHelper contatoHelper;
+    DatabaseHelper databaseHelper;
     PessoaDAO pessoaDAO;
     ArrayList<Pessoa> arrayListPessoa;
     ArrayAdapter<Pessoa> arrayAdapterPessoa;
     private int id1,id2; //menu item
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_pessoas);
         pessoaDAO = new PessoaDAO(ListPessoasActivity.this);
@@ -45,9 +46,9 @@ public class ListPessoasActivity extends AppCompatActivity {
 
 
         listPessoas.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long id) -> {
-            Pessoa contatoEnviada = (Pessoa) arrayAdapterPessoa.getItem(position);
+            Pessoa pessoaEnviada = (Pessoa) arrayAdapterPessoa.getItem(position);
             Intent it = new Intent(ListPessoasActivity.this, CadastroPessoa.class);
-            it.putExtra("chave_contato",contatoEnviada);
+            it.putExtra("chave",pessoaEnviada);
             startActivity(it);
         });
         listPessoas.setOnItemLongClickListener((AdapterView<?> adapterView,View view, int position, long id) -> {
@@ -56,9 +57,9 @@ public class ListPessoasActivity extends AppCompatActivity {
         });
     }
     public void preencheLista(){
-        contatoHelper = new DatabaseHelper(ListPessoasActivity.this);
+        databaseHelper = new DatabaseHelper(ListPessoasActivity.this);
         arrayListPessoa = pessoaDAO.selectAll();
-        contatoHelper.close();
+        databaseHelper.close();
         if(listPessoas!=null){
             arrayAdapterPessoa = new ArrayAdapter<Pessoa>(ListPessoasActivity.this,
                     android.R.layout.simple_list_item_1,arrayListPessoa);
@@ -67,21 +68,24 @@ public class ListPessoasActivity extends AppCompatActivity {
     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+
         MenuItem mDelete = menu.add(Menu.NONE, id1, 1,"Deleta Registro");
         MenuItem mSair = menu.add(Menu.NONE, id2, 2,"Cancela");
         mDelete.setOnMenuItemClickListener(menuItem -> {
-            long retornoBD;
-            contatoHelper = new DatabaseHelper(ListPessoasActivity.this);
-            retornoBD = pessoaDAO.delete(pessoa);
-            contatoHelper.close();
-            if(retornoBD==-1){
-                UtilAlert.alert(ListPessoasActivity.this,"Erro de exclusão!");
-            }
-            else{
-                UtilAlert.alert(ListPessoasActivity.this,"Registro excluído com sucesso!");
-            }
-            preencheLista();
-            return false;
+
+                long retornoBD;
+                databaseHelper = new DatabaseHelper(ListPessoasActivity.this);
+                retornoBD = pessoaDAO.delete(pessoa);
+                databaseHelper.close();
+                if (retornoBD == -1) {
+                    UtilAlert.alert(ListPessoasActivity.this, "Erro de exclusão!");
+                } else {
+                    UtilAlert.alert(ListPessoasActivity.this, "Registro excluído com sucesso!");
+                }
+                preencheLista();
+                return false;
+
+
         });
         super.onCreateContextMenu(menu, v, menuInfo);
     }

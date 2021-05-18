@@ -31,7 +31,7 @@ public class EmpregoDAO {
         values.put("valor", emprego.getValor());
         retornoBD = db.insert("emprego", null, values);
         String res = Long.toString(retornoBD);
-        Log.i("BDContatoHelper", res);
+        Log.i("BDdatabaseHelper", res);
         db.close();
         return retornoBD;
     }

@@ -18,12 +18,18 @@ public class PessoaDAO {
     SQLiteDatabase db;
 
     public PessoaDAO(Context context) {
+
         conexao = new DatabaseHelper(context);
         db = conexao.getWritableDatabase();
     }
 
 
     public long insert(Pessoa pessoa) {
+
+        if(pessoa.getVagaId() == -1) {
+            throw new IllegalArgumentException("É necessário cadastrar um emprego");
+        }
+
         long retornoBD;
         ContentValues values = new ContentValues();
         values.put("nome", pessoa.getNome());
@@ -33,7 +39,7 @@ public class PessoaDAO {
         values.put("vagaId", pessoa.getVagaId());
         retornoBD = db.insert("pessoa", null, values);
         String res = Long.toString(retornoBD);
-        Log.i("BDContatoHelper", res);
+        Log.i("BDdatabaseHelper", res);
         db.close();
         return retornoBD;
     }

@@ -30,7 +30,7 @@ public class CadastroPessoa extends AppCompatActivity {
     private ArrayAdapterCustom<Emprego> vagasAdapter;
     Pessoa pessoa, altPessoa;
     private int  vagaId;
-    DatabaseHelper contatoHelper;
+    DatabaseHelper databaseHelper;
     PessoaDAO pessoaDAO;
     EmpregoDAO empregoDAO;
     long retornoBD;
@@ -42,9 +42,9 @@ public class CadastroPessoa extends AppCompatActivity {
 
         pessoaDAO = new PessoaDAO(CadastroPessoa.this);
         empregoDAO = new EmpregoDAO(this);
-        altPessoa = (Pessoa) it.getSerializableExtra("chave_contato");
+        altPessoa = (Pessoa) it.getSerializableExtra("chave");
         pessoa = new Pessoa();
-        contatoHelper = new DatabaseHelper(CadastroPessoa.this);
+        databaseHelper = new DatabaseHelper(CadastroPessoa.this);
         edtNome = findViewById(R.id.edtDescricao);
         edtEmail = findViewById(R.id.edtHoras);
         edtCpf = findViewById(R.id.edtValor);
@@ -85,36 +85,44 @@ public class CadastroPessoa extends AppCompatActivity {
             btnVariavel.setText("SALVAR");
         }
         btnVariavel.setOnClickListener(v -> {
+
                 String nome = edtNome.getText().toString();
                 String email = edtEmail.getText().toString();
                 String cpf = edtCpf.getText().toString();
                 String telefone = edtTelefone.getText().toString();
                 long retornoBD;
-                pessoa.setVagaId(vagaId != 0? vagaId:null);
+                pessoa.setVagaId(vagaId != 0 ? vagaId : -1);
                 pessoa.setNome(nome);
                 pessoa.setEmail(email);
                 pessoa.setCpf(cpf);
                 pessoa.setTelefone(telefone);
-                if(btnVariavel.getText().toString().equals("SALVAR")) {
-                    retornoBD=pessoaDAO.insert(pessoa);
-                    if(retornoBD==-1){
-                        UtilAlert.alert(CadastroPessoa.this,"Erro ao Cadastrar!");
+                if (btnVariavel.getText().toString().equals("SALVAR")) {
+                    try {
+                        retornoBD = pessoaDAO.insert(pessoa);
+                        if (retornoBD == -1) {
+                            UtilAlert.alert(CadastroPessoa.this, "Erro ao Cadastrar!");
+                        } else {
+                            UtilAlert.alert(CadastroPessoa.this, "Cadastro realizado com sucesso!");
+                        }
                     }
-                    else{
-                        UtilAlert.alert(CadastroPessoa.this,"Cadastro realizado com sucesso!");
+                    catch(IllegalArgumentException ex) {
+                        UtilAlert.alert(this, ex.getMessage());
                     }
-                }else{
+
+                } else {
                     pessoaDAO.update(pessoa);
-                    contatoHelper.close();
+                    databaseHelper.close();
                 }
                 finish();
+
+
         });
     }
     public void preencheLista(){
 
-        contatoHelper = new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(this);
         arrayListEmprego = empregoDAO.selectAll();
-        contatoHelper.close();
+        databaseHelper.close();
 
          vagasAdapter  =new ArrayAdapterCustom<Emprego>(this,
                 android.R.layout.simple_spinner_item, arrayListEmprego);
